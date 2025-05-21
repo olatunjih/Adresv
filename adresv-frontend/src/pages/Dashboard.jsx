@@ -3,6 +3,8 @@ import InvestmentOverview from '../components/dashboard/InvestmentOverview';
 import DailyEngagement from '../components/dashboard/DailyEngagement';
 import NotificationsSummary from '../components/dashboard/NotificationsSummary';
 import QuickAccess from '../components/dashboard/QuickAccess'; // Import the new component
+import GraphicalSummary from '../components/dashboard/GraphicalSummary';
+import UserSecurity from '../components/dashboard/UserSecurity';
 
 const Dashboard = () => {
   const userName = "Abdulazeez";
@@ -31,6 +33,12 @@ const Dashboard = () => {
 
       {/* Quick Access Section */}
       <QuickAccess />
+
+      {/* Graphical Summary Section */}
+      <GraphicalSummary />
+
+      {/* User Security Section */}
+      <UserSecurity />
     </div>
   );
 };
