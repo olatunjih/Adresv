@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home'; // We'll create this next
+import Dashboard from './pages/Dashboard'; // Import the new Dashboard component
 
 // Placeholder for other pages
 const PlaceholderPage = ({ title }) => <div className="p-4"><h2 className="text-2xl">{title}</h2><p>Content will be here.</p></div>;
@@ -19,7 +20,7 @@ function App() {
             <Route path="/about" element={<PlaceholderPage title="About Us" />} />
             <Route path="/privacy" element={<PlaceholderPage title="Privacy Policy" />} />
             <Route path="/terms" element={<PlaceholderPage title="Terms and Conditions" />} />
-            <Route path="/dashboard" element={<PlaceholderPage title="Dashboard" />} />
+            <Route path="/dashboard" element={<Dashboard />} /> {/* Use the Dashboard component */}
             <Route path="/profile" element={<PlaceholderPage title="Profile Management" />} />
             <Route path="/investments" element={<PlaceholderPage title="Investments" />} />
             <Route path="/wallet" element={<PlaceholderPage title="Wallet" />} />
