@@ -3,30 +3,33 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import WalletPage from './WalletPage';
 
-// Mock child components
-jest.mock('../components/wallet/Deposit', () => () => <div data-testid="deposit-mock">Deposit Component Mock</div>);
-jest.mock('../components/wallet/Withdrawal', () => () => <div data-testid="withdrawal-mock">Withdrawal Component Mock</div>);
-jest.mock('../components/wallet/TransactionHistory', () => () => <div data-testid="transaction-history-mock">Transaction History Component Mock</div>);
+// Mock child components to isolate WalletPage tests and check for their presence by text
+// This also avoids issues if child components have their own complex logic or routing dependencies
+jest.mock('../components/wallet/Deposit', () => () => <div>Deposit Funds</div>);
+jest.mock('../components/wallet/Withdrawal', () => () => <div>Withdraw Funds</div>);
+jest.mock('../components/wallet/TransactionHistory', () => () => <div>Transaction History</div>);
 
 describe('WalletPage', () => {
-  test('renders the main title and child component placeholders', () => {
+  test('renders Wallet heading', () => {
     render(
       <MemoryRouter>
         <WalletPage />
       </MemoryRouter>
     );
+    // The main heading for the WalletPage itself
+    const headingElement = screen.getByRole('heading', { name: /Wallet/i, level: 1 });
+    expect(headingElement).toBeInTheDocument();
+  });
 
-    // Check for the main title (adjust text if necessary based on actual component)
-    expect(screen.getByText(/Wallet Dashboard/i)).toBeInTheDocument();
-
-    // Check for mocked child components
-    expect(screen.getByTestId('deposit-mock')).toBeInTheDocument();
-    expect(screen.getByText('Deposit Component Mock')).toBeInTheDocument();
-
-    expect(screen.getByTestId('withdrawal-mock')).toBeInTheDocument();
-    expect(screen.getByText('Withdrawal Component Mock')).toBeInTheDocument();
-
-    expect(screen.getByTestId('transaction-history-mock')).toBeInTheDocument();
-    expect(screen.getByText('Transaction History Component Mock')).toBeInTheDocument();
+  test('renders sub-component representative texts (mocked headings)', () => {
+    render(
+      <MemoryRouter>
+        <WalletPage />
+      </MemoryRouter>
+    );
+    // Check for the text that our mocked components render
+    expect(screen.getByText('Deposit Funds')).toBeInTheDocument();
+    expect(screen.getByText('Withdraw Funds')).toBeInTheDocument();
+    expect(screen.getByText('Transaction History')).toBeInTheDocument();
   });
 });
