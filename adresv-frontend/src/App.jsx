@@ -6,6 +6,7 @@ import Home from './pages/Home'; // We'll create this next
 import Dashboard from './pages/Dashboard'; // Import the new Dashboard component
 import ProfileManagement from './pages/ProfileManagement'; // Import the new ProfileManagement component
 import InvestmentsPage from './pages/InvestmentsPage'; // Import the new InvestmentsPage component
+import WalletPage from './pages/WalletPage'; // Import the WalletPage component
 
 // Placeholder for other pages
 const PlaceholderPage = ({ title }) => <div className="p-4"><h2 className="text-2xl">{title}</h2><p>Content will be here.</p></div>;
@@ -25,7 +26,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} /> {/* Use the Dashboard component */}
             <Route path="/profile" element={<ProfileManagement />} /> {/* Use the ProfileManagement component */}
             <Route path="/investments" element={<InvestmentsPage />} /> {/* Use the InvestmentsPage component */}
-            <Route path="/wallet" element={<PlaceholderPage title="Wallet" />} />
+            <Route path="/wallet" element={<WalletPage />} /> {/* Use the WalletPage component */}
             <Route path="/daily-engagement" element={<PlaceholderPage title="Daily Engagement" />} />
             <Route path="/notifications" element={<PlaceholderPage title="Notifications" />} />
             <Route path="/support" element={<PlaceholderPage title="Support" />} />
