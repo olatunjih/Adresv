@@ -13,6 +13,7 @@ import SupportPage from './pages/SupportPage'; // Import the SupportPage compone
 import AdminLoginPage from './pages/admin/AdminLoginPage'; // Import the AdminLoginPage component
 import AdminDashboardPage from './pages/admin/AdminDashboardPage'; // Import the AdminDashboardPage component
 import RoleManagementPage from './pages/admin/RoleManagementPage'; // Import the RoleManagementPage component
+import NotificationsManagementPage from './pages/admin/NotificationsManagementPage'; // Import NotificationsManagementPage
 
 // Placeholder for other pages
 const PlaceholderPage = ({ title }) => <div className="p-4"><h2 className="text-2xl">{title}</h2><p>Content will be here.</p></div>;
@@ -38,7 +39,8 @@ function App() {
             <Route path="/support" element={<SupportPage />} /> {/* Use the SupportPage component */}
             <Route path="/admin/login" element={<AdminLoginPage />} />
             <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-            <Route path="/admin/roles" element={<RoleManagementPage />} /> {/* Added Role Management Page Route */}
+            <Route path="/admin/roles" element={<RoleManagementPage />} />
+            <Route path="/admin/notifications-mgt" element={<NotificationsManagementPage />} /> {/* Added Notifications Management Page Route */}
           </Routes>
         </main>
         <Footer />

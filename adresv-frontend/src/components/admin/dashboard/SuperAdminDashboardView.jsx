@@ -88,6 +88,11 @@ const SuperAdminDashboardView = () => {
               Manage Admin Roles & Permissions
             </Link>
           </div>
+          <div>
+            <Link to="/admin/notifications-mgt" className="text-indigo-600 hover:text-indigo-800 font-medium transition-colors duration-150">
+              Manage Notifications
+            </Link>
+          </div>
           {/* Add other quick links here as needed */}
         </div>
       </section>
