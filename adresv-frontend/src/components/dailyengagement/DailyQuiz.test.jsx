@@ -1,68 +1,58 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom'; // For enhanced matchers like toBeInTheDocument
 import DailyQuiz from './DailyQuiz';
 
-// Mock useEffect for timer to prevent issues with Jest's fake timers or async updates in basic tests
-jest.useFakeTimers();
-
 describe('DailyQuiz Component', () => {
-  const mockQuestionText = "What is the most actively traded cryptocurrency by volume?";
-
   beforeEach(() => {
-    render(<DailyQuiz />);
-    // Mock alert as it's used in handleSubmit
+    // Mock alert as it's used in the handleSubmit
     global.alert = jest.fn();
+    render(<DailyQuiz />);
   });
 
-  afterEach(() => {
-    jest.clearAllTimers();
-    delete global.alert;
+  test('renders "Daily Quiz" heading', () => {
+    expect(screen.getByRole('heading', { name: /Daily Quiz/i, level: 2 })).toBeInTheDocument();
   });
 
-  test('renders the section title "Today\'s Quiz"', () => {
-    expect(screen.getByText(/Today's Quiz/i)).toBeInTheDocument();
+  test('renders the mock question text', () => {
+    expect(screen.getByText('What is the primary use case for Bitcoin?')).toBeInTheDocument();
   });
 
-  test('renders the mock question display area', () => {
-    expect(screen.getByText(mockQuestionText)).toBeInTheDocument();
+  test('renders answer options', () => {
+    expect(screen.getByText(/Smart Contracts/i)).toBeInTheDocument();
+    expect(screen.getByText(/Peer-to-Peer Electronic Cash/i)).toBeInTheDocument();
   });
 
-  test('renders multiple-choice options based on mock data', () => {
-    expect(screen.getByText('Bitcoin (BTC)')).toBeInTheDocument();
-    expect(screen.getByText('Ethereum (ETH)')).toBeInTheDocument();
-    expect(screen.getByText('Tether (USDT)')).toBeInTheDocument();
-    expect(screen.getByText('Binance Coin (BNB)')).toBeInTheDocument();
+  test('renders timer text', () => {
+    expect(screen.getByText(/Time remaining: \d+s/i)).toBeInTheDocument();
   });
 
-  test('renders timer display', () => {
-    expect(screen.getByText(/Time Left:/i)).toBeInTheDocument();
-    // Initial time might be 15s or another value depending on component's state
-    expect(screen.getByText(/15s/i)).toBeInTheDocument(); 
+  test('renders progress text', () => {
+    expect(screen.getByText(/Question \d+ of \d+/i)).toBeInTheDocument();
   });
 
-  test('renders progress tracker', () => {
-    expect(screen.getByText(/Question:/i)).toBeInTheDocument();
-    expect(screen.getByText(/1 of 5/i)).toBeInTheDocument(); // Based on mock data
+  test('renders "Submit Answer" button', () => {
+    expect(screen.getByRole('button', { name: /Submit Answer/i })).toBeInTheDocument();
   });
 
-  test('renders the "Submit Answer" button and it is initially disabled', () => {
+  test('allows an answer to be selected and form to be submitted', () => {
+    // Find an answer option button (e.g., the one containing "Peer-to-Peer Electronic Cash")
+    const answerButton = screen.getByRole('button', { name: /C\. Peer-to-Peer Electronic Cash/i });
+    fireEvent.click(answerButton);
+
+    // Check if the button style changed (optional, depends on implementation detail)
+    // For this component, selected answer gets 'bg-blue-500 text-white'
+    expect(answerButton).toHaveClass('bg-blue-500', 'text-white');
+
     const submitButton = screen.getByRole('button', { name: /Submit Answer/i });
-    expect(submitButton).toBeInTheDocument();
-    expect(submitButton).toBeDisabled();
+    fireEvent.click(submitButton);
+
+    expect(global.alert).toHaveBeenCalledWith('Selected answer: C. Correct answer: C');
   });
 
-  test('submit button becomes enabled after selecting an option', () => {
-    const optionButton = screen.getByText('Bitcoin (BTC)'); // Select any option
-    fireEvent.click(optionButton);
-    
+  test('shows alert if no answer selected on submit', () => {
     const submitButton = screen.getByRole('button', { name: /Submit Answer/i });
-    expect(submitButton).not.toBeDisabled();
-  });
-
-  test('selecting an option highlights it', () => {
-    const optionButton = screen.getByText('Ethereum (ETH)');
-    fireEvent.click(optionButton);
-    // Check for a class that indicates selection, e.g., bg-blue-500
-    expect(optionButton).toHaveClass('bg-blue-500'); 
+    fireEvent.click(submitButton);
+    expect(global.alert).toHaveBeenCalledWith('Please select an answer.');
   });
 });

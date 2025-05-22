@@ -5,22 +5,24 @@ import TransactionHistory from '../components/wallet/TransactionHistory';
 
 const WalletPage = () => {
   return (
-    <div className="container mx-auto p-4 space-y-8">
-      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">Wallet Dashboard</h1>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <section className="bg-white p-6 rounded-lg shadow-lg">
-          <Deposit />
-        </section>
-        <section className="bg-white p-6 rounded-lg shadow-lg">
-          <Withdrawal />
-        </section>
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <h1 className="text-3xl font-bold my-6 text-gray-800">Wallet</h1>
+
+      <div className="mb-8">
+        <Deposit />
       </div>
 
-      <section className="bg-white p-6 rounded-lg shadow-lg mt-8">
+      <hr className="my-8 border-gray-300" />
+
+      <div className="mb-8">
+        <Withdrawal />
+      </div>
+
+      <hr className="my-8 border-gray-300" />
+
+      <div>
         <TransactionHistory />
-      </section>
-      
+      </div>
     </div>
   );
 };
