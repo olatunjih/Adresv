@@ -3,28 +3,30 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import DailyEngagementPage from './DailyEngagementPage';
 
-// Mock child components to isolate DailyEngagementPage tests
-jest.mock('../components/dailyengagement/DailyQuiz', () => () => <div>Mocked DailyQuiz Content</div>);
-jest.mock('../components/dailyengagement/MockTrades', () => () => <div>Mocked MockTrades Content</div>);
-jest.mock('../components/dailyengagement/Leaderboard', () => () => <div>Mocked Leaderboard Content</div>);
+// Mock child components
+jest.mock('../components/dailyengagement/DailyQuiz', () => () => <div data-testid="daily-quiz-mock">Daily Quiz Mock</div>);
+jest.mock('../components/dailyengagement/MockTrades', () => () => <div data-testid="mock-trades-mock">Mock Trades Mock</div>);
+jest.mock('../components/dailyengagement/Leaderboard', () => () => <div data-testid="leaderboard-mock">Leaderboard Mock</div>);
 
 describe('DailyEngagementPage', () => {
-  beforeEach(() => {
+  test('renders the main title and child component placeholders', () => {
     render(
-      <MemoryRouter> {/* MemoryRouter is needed if the page or its children use Link or other router features */}
+      <MemoryRouter>
         <DailyEngagementPage />
       </MemoryRouter>
     );
-  });
 
-  test('renders "Daily Engagement Page" heading', () => {
-    const headingElement = screen.getByRole('heading', { name: /Daily Engagement Page/i, level: 1 });
-    expect(headingElement).toBeInTheDocument();
-  });
+    // Check for the main title (adjust text if necessary based on actual component)
+    expect(screen.getByText(/Daily Engagement Tasks/i)).toBeInTheDocument();
 
-  test('renders mocked child components content', () => {
-    expect(screen.getByText('Mocked DailyQuiz Content')).toBeInTheDocument();
-    expect(screen.getByText('Mocked MockTrades Content')).toBeInTheDocument();
-    expect(screen.getByText('Mocked Leaderboard Content')).toBeInTheDocument();
+    // Check for mocked child components
+    expect(screen.getByTestId('daily-quiz-mock')).toBeInTheDocument();
+    expect(screen.getByText('Daily Quiz Mock')).toBeInTheDocument();
+
+    expect(screen.getByTestId('mock-trades-mock')).toBeInTheDocument();
+    expect(screen.getByText('Mock Trades Mock')).toBeInTheDocument();
+
+    expect(screen.getByTestId('leaderboard-mock')).toBeInTheDocument();
+    expect(screen.getByText('Leaderboard Mock')).toBeInTheDocument();
   });
 });

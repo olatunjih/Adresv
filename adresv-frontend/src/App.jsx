@@ -8,9 +8,6 @@ import ProfileManagement from './pages/ProfileManagement'; // Import the new Pro
 import InvestmentsPage from './pages/InvestmentsPage'; // Import the new InvestmentsPage component
 import WalletPage from './pages/WalletPage'; // Import the WalletPage component
 import DailyEngagementPage from './pages/DailyEngagementPage'; // Import the DailyEngagementPage component
-import NotificationsPage from './pages/NotificationsPage'; // Import the NotificationsPage component
-import SupportPage from './pages/SupportPage'; // Import the SupportPage component
-import AdminLoginPage from './pages/admin/AdminLoginPage'; // Import the AdminLoginPage component
 
 // Placeholder for other pages
 const PlaceholderPage = ({ title }) => <div className="p-4"><h2 className="text-2xl">{title}</h2><p>Content will be here.</p></div>;
@@ -32,9 +29,8 @@ function App() {
             <Route path="/investments" element={<InvestmentsPage />} /> {/* Use the InvestmentsPage component */}
             <Route path="/wallet" element={<WalletPage />} /> {/* Use the WalletPage component */}
             <Route path="/daily-engagement" element={<DailyEngagementPage />} /> {/* Use the DailyEngagementPage component */}
-            <Route path="/notifications" element={<NotificationsPage />} /> {/* Use the NotificationsPage component */}
-            <Route path="/support" element={<SupportPage />} /> {/* Use the SupportPage component */}
-            <Route path="/admin/login" element={<AdminLoginPage />} /> {/* Added Admin Login Page Route */}
+            <Route path="/notifications" element={<PlaceholderPage title="Notifications" />} />
+            <Route path="/support" element={<PlaceholderPage title="Support" />} />
           </Routes>
         </main>
         <Footer />

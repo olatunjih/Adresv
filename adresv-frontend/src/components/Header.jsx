@@ -32,8 +32,6 @@ const Header = () => {
           <li><Link to="/investments" style={linkStyle}>Investments</Link></li>
           <li><Link to="/wallet" style={linkStyle}>Wallet</Link></li>
           <li><Link to="/daily-engagement" style={linkStyle}>Daily Engagement</Link></li>
-          <li><Link to="/notifications" style={linkStyle}>Notifications</Link></li>
-          <li><Link to="/support" style={linkStyle}>Support</Link></li> {/* Added Support link */}
         </ul>
       </nav>
     </header>
