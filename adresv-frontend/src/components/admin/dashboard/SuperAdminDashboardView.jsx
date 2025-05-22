@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link
 
 const ToggleSwitch = ({ label, enabled, onToggle }) => (
   <div className="flex items-center justify-between py-2">
@@ -76,6 +77,19 @@ const SuperAdminDashboardView = () => {
           <ToggleSwitch label="Platform Maintenance Mode" enabled={false} onToggle={() => {}} />
         </div>
         <p className="text-xs text-gray-500 mt-3 italic">(Toggles are currently disabled placeholders.)</p>
+      </section>
+
+      {/* Quick Links */}
+      <section className="bg-white shadow-md rounded-lg p-6">
+        <h4 className="text-xl font-semibold text-gray-700 mb-4">Quick Links</h4>
+        <div className="space-y-2">
+          <div>
+            <Link to="/admin/roles" className="text-indigo-600 hover:text-indigo-800 font-medium transition-colors duration-150">
+              Manage Admin Roles & Permissions
+            </Link>
+          </div>
+          {/* Add other quick links here as needed */}
+        </div>
       </section>
     </div>
   );
