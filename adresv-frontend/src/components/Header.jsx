@@ -31,6 +31,7 @@ const Header = () => {
           <li><Link to="/profile" style={linkStyle}>Profile</Link></li>
           <li><Link to="/investments" style={linkStyle}>Investments</Link></li>
           <li><Link to="/wallet" style={linkStyle}>Wallet</Link></li>
+          <li><Link to="/daily-engagement" style={linkStyle}>Daily Engagement</Link></li> {/* Added Daily Engagement link */}
         </ul>
       </nav>
     </header>
