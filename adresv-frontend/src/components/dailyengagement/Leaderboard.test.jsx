@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import Leaderboard from './Leaderboard';
 
 describe('Leaderboard Component', () => {
@@ -8,47 +7,51 @@ describe('Leaderboard Component', () => {
     render(<Leaderboard />);
   });
 
-  test('renders "Leaderboard" heading', () => {
-    expect(screen.getByRole('heading', { name: /Leaderboard/i, level: 2 })).toBeInTheDocument();
+  test('renders the section title "Leaderboard"', () => {
+    expect(screen.getByText(/^Leaderboard$/i)).toBeInTheDocument(); // Use regex for exact match or specific h2
   });
 
-  test('renders "Quiz Rankings" and "Mock Trade Rankings" tabs', () => {
-    expect(screen.getByRole('button', { name: /Quiz Rankings/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Mock Trade Rankings/i })).toBeInTheDocument();
+  test('renders view-switching buttons', () => {
+    expect(screen.getByRole('button', { name: /Daily Quiz Champions/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Mock Trade Masters/i })).toBeInTheDocument();
   });
 
-  test('displays Quiz Rankings by default and shows quiz data', () => {
-    // Check for a user from the quiz rankings (default view)
-    expect(screen.getByText('UserAlpha')).toBeInTheDocument();
-    expect(screen.getByText(/Score: 1250/i)).toBeInTheDocument();
-    // Ensure trade-specific data is not visible initially
-    expect(screen.queryByText('TraderX')).not.toBeInTheDocument();
-    expect(screen.queryByText(/PnL: \$5200/i)).not.toBeInTheDocument();
+  test('renders table headers for the default view (Daily Quiz)', () => {
+    expect(screen.getByRole('columnheader', { name: /Rank/i })).toBeInTheDocument();
+    expect(screen.getByRole('columnheader', { name: /Username/i })).toBeInTheDocument();
+    expect(screen.getByRole('columnheader', { name: /Score/i })).toBeInTheDocument(); // Default label
   });
 
-  test('clicking "Mock Trade Rankings" tab displays trade data', () => {
-    const tradeTabButton = screen.getByRole('button', { name: /Mock Trade Rankings/i });
-    fireEvent.click(tradeTabButton);
-
-    // Check for a user from the trade rankings
-    expect(screen.getByText('TraderX')).toBeInTheDocument();
-    expect(screen.getByText(/PnL: \$5,200/i)).toBeInTheDocument(); // Note: toLocaleString() adds comma
-    // Ensure quiz-specific data is not visible
-    expect(screen.queryByText(/Score: 1250/i)).not.toBeInTheDocument();
-    // UserAlpha is in both, but their score shouldn't be visible, only PnL if it's different
-    // Let's check for a user unique to trade rankings if UserAlpha's PnL is also displayed
-    expect(screen.getByText('CryptoQueen')).toBeInTheDocument();
+  test('displays quiz leaderboard data by default', () => {
+    // Check for a username specific to quiz mock data
+    expect(screen.getByText('CryptoKing88')).toBeInTheDocument();
+    expect(screen.getByText('4/5 Correct, 5s Avg Time')).toBeInTheDocument();
   });
 
-  test('switching back to "Quiz Rankings" tab displays quiz data again', () => {
-    const tradeTabButton = screen.getByRole('button', { name: /Mock Trade Rankings/i });
-    fireEvent.click(tradeTabButton); // Switch to trade
+  test('switches to Mock Trades view and updates table headers and data', () => {
+    const mockTradesButton = screen.getByRole('button', { name: /Mock Trade Masters/i });
+    fireEvent.click(mockTradesButton);
 
-    const quizTabButton = screen.getByRole('button', { name: /Quiz Rankings/i });
-    fireEvent.click(quizTabButton); // Switch back to quiz
+    // Header should change
+    expect(screen.getByRole('columnheader', { name: /Achievement/i })).toBeInTheDocument();
+    expect(screen.queryByRole('columnheader', { name: /Score/i })).not.toBeInTheDocument();
 
-    expect(screen.getByText('UserAlpha')).toBeInTheDocument();
-    expect(screen.getByText(/Score: 1250/i)).toBeInTheDocument();
-    expect(screen.queryByText('TraderX')).not.toBeInTheDocument();
+    // Data should change - check for a username specific to trades mock data
+    expect(screen.getByText('TradeTitan')).toBeInTheDocument();
+    expect(screen.getByText('+150% Profit')).toBeInTheDocument();
+    // Ensure quiz data is not present
+    expect(screen.queryByText('CryptoKing88')).not.toBeInTheDocument();
+  });
+
+  test('switches back to Daily Quiz view when the button is clicked again', () => {
+    const mockTradesButton = screen.getByRole('button', { name: /Mock Trade Masters/i });
+    fireEvent.click(mockTradesButton); // Switch to Trades
+
+    const dailyQuizButton = screen.getByRole('button', { name: /Daily Quiz Champions/i });
+    fireEvent.click(dailyQuizButton); // Switch back to Quiz
+
+    expect(screen.getByRole('columnheader', { name: /Score/i })).toBeInTheDocument();
+    expect(screen.queryByRole('columnheader', { name: /Achievement/i })).not.toBeInTheDocument();
+    expect(screen.getByText('CryptoKing88')).toBeInTheDocument();
   });
 });

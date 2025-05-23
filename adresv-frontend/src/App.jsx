@@ -9,11 +9,6 @@ import InvestmentsPage from './pages/InvestmentsPage'; // Import the new Investm
 import WalletPage from './pages/WalletPage'; // Import the WalletPage component
 import DailyEngagementPage from './pages/DailyEngagementPage'; // Import the DailyEngagementPage component
 import NotificationsPage from './pages/NotificationsPage'; // Import the NotificationsPage component
-import SupportPage from './pages/SupportPage'; // Import the SupportPage component
-import AdminLoginPage from './pages/admin/AdminLoginPage'; // Import the AdminLoginPage component
-import AdminDashboardPage from './pages/admin/AdminDashboardPage'; // Import the AdminDashboardPage component
-import RoleManagementPage from './pages/admin/RoleManagementPage'; // Import the RoleManagementPage component
-import NotificationsManagementPage from './pages/admin/NotificationsManagementPage'; // Import NotificationsManagementPage
 
 // Placeholder for other pages
 const PlaceholderPage = ({ title }) => <div className="p-4"><h2 className="text-2xl">{title}</h2><p>Content will be here.</p></div>;
@@ -36,11 +31,7 @@ function App() {
             <Route path="/wallet" element={<WalletPage />} /> {/* Use the WalletPage component */}
             <Route path="/daily-engagement" element={<DailyEngagementPage />} /> {/* Use the DailyEngagementPage component */}
             <Route path="/notifications" element={<NotificationsPage />} /> {/* Use the NotificationsPage component */}
-            <Route path="/support" element={<SupportPage />} /> {/* Use the SupportPage component */}
-            <Route path="/admin/login" element={<AdminLoginPage />} />
-            <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-            <Route path="/admin/roles" element={<RoleManagementPage />} />
-            <Route path="/admin/notifications-mgt" element={<NotificationsManagementPage />} /> {/* Added Notifications Management Page Route */}
+            <Route path="/support" element={<PlaceholderPage title="Support" />} />
           </Routes>
         </main>
         <Footer />
