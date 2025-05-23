@@ -15,6 +15,7 @@ import AdminLayout from './components/admin/layout/AdminLayout'; // Import Admin
 import AdminDashboardPage from './pages/admin/AdminDashboardPage'; // Import AdminDashboardPage
 import RoleManagementPage from './pages/admin/RoleManagementPage'; // Import RoleManagementPage
 import AdminNotificationsPage from './pages/admin/AdminNotificationsPage'; // Import AdminNotificationsPage
+import UserManagementPage from './pages/admin/UserManagementPage'; // Import UserManagementPage
 
 // Placeholder for other pages
 const PlaceholderPage = ({ title }) => <div className="p-4"><h2 className="text-2xl">{title}</h2><p>Content will be here.</p></div>;
@@ -49,9 +50,9 @@ function App() {
             <Route path="/admin" element={<AdminLayout />}>
               <Route path="dashboard" element={<AdminDashboardPage />} />
               <Route path="role-management" element={<RoleManagementPage />} /> 
-              <Route path="notifications-management" element={<AdminNotificationsPage />} /> {/* New route */}
+              <Route path="notifications-management" element={<AdminNotificationsPage />} />
+              <Route path="user-management" element={<UserManagementPage />} /> {/* New route */}
               {/* Future admin pages will be nested here: */}
-              {/* <Route path="users" element={<PlaceholderPage title="Admin User Management" />} /> */}
               {/* <Route path="settings" element={<PlaceholderPage title="Admin Settings" />} /> */}
             </Route>
           </Routes>
