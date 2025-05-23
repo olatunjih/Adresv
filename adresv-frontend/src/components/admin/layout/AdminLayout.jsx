@@ -28,7 +28,15 @@ const AdminLayout = () => {
             </li>
             <li>
               <Link 
-                to="/admin/users" 
+                to="/admin/roles"  // Updated path
+                className="block py-2 px-4 rounded hover:bg-gray-700 transition duration-150"
+              >
+                Role Management   // Updated text
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/admin/user-management" // New User Management link
                 className="block py-2 px-4 rounded hover:bg-gray-700 transition duration-150"
               >
                 User Management
@@ -36,10 +44,10 @@ const AdminLayout = () => {
             </li>
             <li>
               <Link 
-                to="/admin/notifications" 
+                to="/admin/manage-notifications"  // Updated path
                 className="block py-2 px-4 rounded hover:bg-gray-700 transition duration-150"
               >
-                Platform Notifications
+                Manage Notifications             // Updated text
               </Link>
             </li>
             <li>
