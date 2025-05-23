@@ -17,6 +17,7 @@ import RoleManagementPage from './pages/admin/RoleManagementPage'; // Import Rol
 import AdminNotificationsPage from './pages/admin/AdminNotificationsPage'; // Import AdminNotificationsPage
 import UserManagementPage from './pages/admin/UserManagementPage'; // Import UserManagementPage
 import AdminInvestmentsPage from './pages/admin/AdminInvestmentsPage'; // Import AdminInvestmentsPage
+import AdminWalletTransactionsPage from './pages/admin/AdminWalletTransactionsPage'; // Import AdminWalletTransactionsPage
 
 // Placeholder for other pages
 const PlaceholderPage = ({ title }) => <div className="p-4"><h2 className="text-2xl">{title}</h2><p>Content will be here.</p></div>;
@@ -53,7 +54,8 @@ function App() {
               <Route path="role-management" element={<RoleManagementPage />} /> 
               <Route path="notifications-management" element={<AdminNotificationsPage />} />
               <Route path="user-management" element={<UserManagementPage />} />
-              <Route path="investments-management" element={<AdminInvestmentsPage />} /> {/* New route */}
+              <Route path="investments-management" element={<AdminInvestmentsPage />} />
+              <Route path="wallet-transactions" element={<AdminWalletTransactionsPage />} /> {/* New route */}
               {/* Future admin pages will be nested here: */}
               {/* <Route path="settings" element={<PlaceholderPage title="Admin Settings" />} /> */}
             </Route>
