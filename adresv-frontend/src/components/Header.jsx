@@ -34,6 +34,7 @@ const Header = () => {
           <li><Link to="/daily-engagement" style={linkStyle}>Daily Engagement</Link></li>
           <li><Link to="/notifications" style={linkStyle}>Notifications</Link></li>
           <li><Link to="/support" style={linkStyle}>Support</Link></li>
+          <li><Link to="/admin/login" style={linkStyle}>Admin Login</Link></li> {/* Temporary Admin Login Link */}
         </ul>
       </nav>
     </header>
