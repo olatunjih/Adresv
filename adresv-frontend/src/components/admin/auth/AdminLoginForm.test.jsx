@@ -1,94 +1,103 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import AdminLoginForm from './AdminLoginForm';
 
 describe('AdminLoginForm Component', () => {
+  let consoleSpy;
+  let alertSpy;
+
   beforeEach(() => {
-    // Mock alert and console.log as they are used in handleSubmit
-    global.alert = jest.fn();
-    global.console.log = jest.fn();
+    // Mock console.log and window.alert as they are used in form submission
+    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
     render(<AdminLoginForm />);
   });
 
-  test('renders all form fields and login button', () => {
-    expect(screen.getByLabelText(/Username or Email/i)).toBeInTheDocument();
+  afterEach(() => {
+    consoleSpy.mockRestore();
+    alertSpy.mockRestore();
+  });
+
+  test('renders key form elements', () => {
+    expect(screen.getByLabelText(/Username\/Email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Password/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Role/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/2FA\/OTP Code/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Role \(Placeholder\)/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Use 2FA/i)).toBeInTheDocument(); // Checkbox
     expect(screen.getByRole('button', { name: /Login/i })).toBeInTheDocument();
   });
 
-  test('allows user input into username field', () => {
-    const usernameInput = screen.getByLabelText(/Username or Email/i);
-    fireEvent.change(usernameInput, { target: { value: 'testadmin' } });
-    expect(usernameInput.value).toBe('testadmin');
+  test('conditionally renders OTP input based on "Use 2FA" checkbox', () => {
+    // Initially, OTP input should not be present
+    expect(screen.queryByLabelText(/OTP Code/i)).not.toBeInTheDocument();
+
+    // Simulate checking the "Use 2FA" checkbox
+    const use2FACheckbox = screen.getByLabelText(/Use 2FA/i);
+    fireEvent.click(use2FACheckbox);
+
+    // Now, OTP input should be present
+    expect(screen.getByLabelText(/OTP Code/i)).toBeInTheDocument();
+
+    // Simulate unchecking the "Use 2FA" checkbox
+    fireEvent.click(use2FACheckbox);
+
+    // OTP input should be hidden again
+    expect(screen.queryByLabelText(/OTP Code/i)).not.toBeInTheDocument();
   });
 
-  test('allows user input into password field', () => {
+  test('allows input in username and password fields', () => {
+    const usernameInput = screen.getByLabelText(/Username\/Email/i);
+    fireEvent.change(usernameInput, { target: { value: 'admin@test.com' } });
+    expect(usernameInput.value).toBe('admin@test.com');
+
     const passwordInput = screen.getByLabelText(/Password/i);
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
     expect(passwordInput.value).toBe('password123');
   });
-
-  test('allows role selection', () => {
-    const roleSelect = screen.getByLabelText(/Role/i);
+  
+  test('role select dropdown allows selection', () => {
+    const roleSelect = screen.getByLabelText(/Role \(Placeholder\)/i);
     fireEvent.change(roleSelect, { target: { value: 'User Admin' } });
     expect(roleSelect.value).toBe('User Admin');
   });
 
-  test('allows user input into OTP field', () => {
-    const otpInput = screen.getByLabelText(/2FA\/OTP Code/i);
-    fireEvent.change(otpInput, { target: { value: '654321' } });
-    expect(otpInput.value).toBe('654321');
-  });
+  test('form submission calls console.log and window.alert', () => {
+    // Fill in required fields
+    fireEvent.change(screen.getByLabelText(/Username\/Email/i), { target: { value: 'testuser' } });
+    fireEvent.change(screen.getByLabelText(/Password/i), { target: { value: 'testpass' } });
+    fireEvent.change(screen.getByLabelText(/Role \(Placeholder\)/i), { target: { value: 'Global Admin' } });
 
-  test('form submission triggers console.log and alert with correct data', () => {
-    const usernameInput = screen.getByLabelText(/Username or Email/i);
-    const passwordInput = screen.getByLabelText(/Password/i);
-    const roleSelect = screen.getByLabelText(/Role/i);
-    const otpInput = screen.getByLabelText(/2FA\/OTP Code/i);
     const loginButton = screen.getByRole('button', { name: /Login/i });
-
-    // Simulate user input
-    fireEvent.change(usernameInput, { target: { value: 'superadmin' } });
-    fireEvent.change(passwordInput, { target: { value: 'securepass' } });
-    fireEvent.change(roleSelect, { target: { value: 'Super Admin' } });
-    fireEvent.change(otpInput, { target: { value: '112233' } });
-
-    // Simulate form submission
     fireEvent.click(loginButton);
 
-    // Verify console.log
-    expect(global.console.log).toHaveBeenCalledWith('Admin Login Attempt:', {
-      username: 'superadmin',
-      password: 'securepass',
-      role: 'Super Admin',
-      otp: '112233',
+    expect(consoleSpy).toHaveBeenCalledWith('Admin Login Credentials:', {
+      username: 'testuser',
+      password: 'testpass',
+      role: 'Global Admin',
+      use2FA: false, // Default state
+      otp: 'N/A',
     });
-
-    // Verify alert
-    expect(global.alert).toHaveBeenCalledWith('Attempting login for Super Admin: superadmin');
+    expect(alertSpy).toHaveBeenCalledWith('Admin login attempt with username: testuser. Check console for details.');
   });
 
-  test('form submission with "Billing Admin" role triggers specific error alert', () => {
-    const roleSelect = screen.getByLabelText(/Role/i);
-    const loginButton = screen.getByRole('button', { name: /Login/i });
-
-    // Select "Billing Admin" role
-    fireEvent.change(roleSelect, { target: { value: 'Billing Admin' } });
+  test('form submission includes OTP when 2FA is enabled', () => {
+    fireEvent.change(screen.getByLabelText(/Username\/Email/i), { target: { value: 'test2fauser' } });
+    fireEvent.change(screen.getByLabelText(/Password/i), { target: { value: 'test2fapass' } });
     
-    // Fill other required fields (username and password)
-    fireEvent.change(screen.getByLabelText(/Username or Email/i), { target: { value: 'billinguser' } });
-    fireEvent.change(screen.getByLabelText(/Password/i), { target: { value: 'billingpass' } });
+    const use2FACheckbox = screen.getByLabelText(/Use 2FA/i);
+    fireEvent.click(use2FACheckbox); // Enable 2FA
+    
+    const otpInput = screen.getByLabelText(/OTP Code/i);
+    fireEvent.change(otpInput, { target: { value: '123456' } });
 
-
-    // Simulate form submission
+    const loginButton = screen.getByRole('button', { name: /Login/i });
     fireEvent.click(loginButton);
 
-    // Verify specific error alert for Billing Admin
-    expect(global.alert).toHaveBeenCalledWith('Mock Error: Billing Admins are temporarily disabled.');
-    // Ensure the regular login alert was not called
-    expect(global.alert).not.toHaveBeenCalledWith(expect.stringContaining('Attempting login for Billing Admin'));
+    expect(consoleSpy).toHaveBeenCalledWith('Admin Login Credentials:', expect.objectContaining({
+      username: 'test2fauser',
+      password: 'test2fapass',
+      use2FA: true,
+      otp: '123456',
+    }));
+    expect(alertSpy).toHaveBeenCalledWith('Admin login attempt with username: test2fauser. Check console for details.');
   });
 });

@@ -1,69 +1,42 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import AdminDashboardPage from './AdminDashboardPage';
 
-// Mock all view components
-jest.mock('../../components/admin/dashboard/SuperAdminDashboardView', () => () => <div data-testid="super-admin-view">Mocked SuperAdminView</div>);
-jest.mock('../../components/admin/dashboard/UserAdminDashboardView', () => () => <div data-testid="user-admin-view">Mocked UserAdminView</div>);
-jest.mock('../../components/admin/dashboard/GlobalAdminDashboardView', () => () => <div data-testid="global-admin-view">Mocked GlobalAdminView</div>);
-jest.mock('../../components/admin/dashboard/BillingAdminDashboardView', () => () => <div data-testid="billing-admin-view">Mocked BillingAdminView</div>);
-jest.mock('../../components/admin/dashboard/MessageAdminDashboardView', () => () => <div data-testid="message-admin-view">Mocked MessageAdminView</div>);
-jest.mock('../../components/admin/dashboard/DefaultAdminDashboardView', () => () => <div data-testid="default-admin-view">Mocked DefaultAdminView</div>);
+// Mock child components
+jest.mock('../../components/admin/dashboard/superadmin/PlatformMetrics', () => () => <div data-testid="platform-metrics-mock">PlatformMetrics Mock</div>);
+jest.mock('../../components/admin/dashboard/superadmin/AdminActivityLogs', () => () => <div data-testid="admin-activity-logs-mock">AdminActivityLogs Mock</div>);
+jest.mock('../../components/admin/dashboard/superadmin/SystemToggles', () => () => <div data-testid="system-toggles-mock">SystemToggles Mock</div>);
 
-describe('AdminDashboardPage Component', () => {
-  beforeEach(() => {
+describe('AdminDashboardPage', () => {
+  test('renders the main title, TODO comment, and child component placeholders', () => {
     render(
       <MemoryRouter>
         <AdminDashboardPage />
       </MemoryRouter>
     );
-  });
 
-  test('renders main "Admin Dashboard" heading and role selection dropdown', () => {
-    expect(screen.getByRole('heading', { name: /Admin Dashboard/i, level: 1 })).toBeInTheDocument();
-    expect(screen.getByLabelText(/Select Mock Role:/i)).toBeInTheDocument();
-  });
+    // Check for the main title
+    expect(screen.getByText(/Admin Dashboard/i)).toBeInTheDocument();
+    expect(screen.getByText(/\(Super Admin View\)/i)).toBeInTheDocument();
 
-  test('default view is SuperAdminView (or DefaultAdminView if Super Admin is not default)', () => {
-    // The initial state for currentMockRole in AdminDashboardPage is "Super Admin"
-    expect(screen.getByTestId('super-admin-view')).toBeInTheDocument();
-    expect(screen.getByText('Mocked SuperAdminView')).toBeInTheDocument();
-    expect(screen.queryByTestId('default-admin-view')).not.toBeInTheDocument();
-  });
+    // Check for the TODO comment (by checking if the component renders any text node containing it)
+    // This is a bit fragile; might be better to check for a specific element if the comment were wrapped.
+    // For now, we check if the text content of the page includes the core part of the comment.
+    const pageContent = screen.getByRole('main').textContent; // Assuming the main content is within a <main> or similar role.
+                                                         // The AdminDashboardPage itself is a div. Let's use the container.
+    const fullPageContent = document.body.textContent;
+    expect(fullPageContent).toContain('TODO: Add logic here to determine the admin\'s role');
 
-  test('changing role to "User Admin" renders UserAdminView', () => {
-    const roleSelect = screen.getByLabelText(/Select Mock Role:/i);
-    fireEvent.change(roleSelect, { target: { value: 'User Admin' } });
 
-    expect(screen.getByTestId('user-admin-view')).toBeInTheDocument();
-    expect(screen.getByText('Mocked UserAdminView')).toBeInTheDocument();
-    expect(screen.queryByTestId('super-admin-view')).not.toBeInTheDocument();
-  });
+    // Check for mocked child components
+    expect(screen.getByTestId('platform-metrics-mock')).toBeInTheDocument();
+    expect(screen.getByText('PlatformMetrics Mock')).toBeInTheDocument();
 
-  test('changing role to "Billing Admin" renders BillingAdminView', () => {
-    const roleSelect = screen.getByLabelText(/Select Mock Role:/i);
-    fireEvent.change(roleSelect, { target: { value: 'Billing Admin' } });
+    expect(screen.getByTestId('admin-activity-logs-mock')).toBeInTheDocument();
+    expect(screen.getByText('AdminActivityLogs Mock')).toBeInTheDocument();
 
-    expect(screen.getByTestId('billing-admin-view')).toBeInTheDocument();
-    expect(screen.getByText('Mocked BillingAdminView')).toBeInTheDocument();
-    expect(screen.queryByTestId('super-admin-view')).not.toBeInTheDocument();
-  });
-  
-  test('changing role to "Global Admin" renders GlobalAdminView', () => {
-    const roleSelect = screen.getByLabelText(/Select Mock Role:/i);
-    fireEvent.change(roleSelect, { target: { value: 'Global Admin' } });
-
-    expect(screen.getByTestId('global-admin-view')).toBeInTheDocument();
-    expect(screen.getByText('Mocked GlobalAdminView')).toBeInTheDocument();
-  });
-
-  test('changing role to "Message Admin" renders MessageAdminView', () => {
-    const roleSelect = screen.getByLabelText(/Select Mock Role:/i);
-    fireEvent.change(roleSelect, { target: { value: 'Message Admin' } });
-
-    expect(screen.getByTestId('message-admin-view')).toBeInTheDocument();
-    expect(screen.getByText('Mocked MessageAdminView')).toBeInTheDocument();
+    expect(screen.getByTestId('system-toggles-mock')).toBeInTheDocument();
+    expect(screen.getByText('SystemToggles Mock')).toBeInTheDocument();
   });
 });

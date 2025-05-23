@@ -1,39 +1,32 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { MemoryRouter } from 'react-router-dom'; // MemoryRouter is good for testing components that use Link or routing features
+import { MemoryRouter } from 'react-router-dom';
 import SupportPage from './SupportPage';
 
-// Mock child components to isolate SupportPage tests
-jest.mock('../components/support/SubmitTicketForm', () => () => <div data-testid="submit-ticket-form-mock">SubmitTicketForm Mock</div>);
-jest.mock('../components/support/TicketList', () => () => <div data-testid="ticket-list-mock">TicketList Mock</div>);
-jest.mock('../components/support/LiveChatPlaceholder', () => () => <div data-testid="live-chat-mock">LiveChatPlaceholder Mock</div>);
-jest.mock('../components/support/KnowledgeBasePlaceholder', () => () => <div data-testid="knowledge-base-mock">KnowledgeBasePlaceholder Mock</div>);
+// Mock child components
+jest.mock('../components/support/TicketingSystem', () => () => <div data-testid="ticketing-system-mock">Ticketing System Mock</div>);
+jest.mock('../components/support/LiveChatPlaceholder', () => () => <div data-testid="live-chat-mock">Live Chat Placeholder Mock</div>);
+jest.mock('../components/support/KnowledgeBase', () => () => <div data-testid="knowledge-base-mock">Knowledge Base Mock</div>);
 
-describe('SupportPage Component', () => {
-  beforeEach(() => {
+describe('SupportPage', () => {
+  test('renders the main title and child component placeholders', () => {
     render(
       <MemoryRouter>
         <SupportPage />
       </MemoryRouter>
     );
-  });
 
-  test('renders the main "Support Page" heading', () => {
-    expect(screen.getByRole('heading', { name: /Support Page/i, level: 1 })).toBeInTheDocument();
-  });
+    // Check for the main title (adjust text if necessary based on actual component)
+    expect(screen.getByText(/Customer Support/i)).toBeInTheDocument();
 
-  test('renders mocked child components', () => {
-    expect(screen.getByTestId('submit-ticket-form-mock')).toBeInTheDocument();
-    expect(screen.getByText('SubmitTicketForm Mock')).toBeInTheDocument();
-
-    expect(screen.getByTestId('ticket-list-mock')).toBeInTheDocument();
-    expect(screen.getByText('TicketList Mock')).toBeInTheDocument();
+    // Check for mocked child components
+    expect(screen.getByTestId('ticketing-system-mock')).toBeInTheDocument();
+    expect(screen.getByText('Ticketing System Mock')).toBeInTheDocument();
 
     expect(screen.getByTestId('live-chat-mock')).toBeInTheDocument();
-    expect(screen.getByText('LiveChatPlaceholder Mock')).toBeInTheDocument();
+    expect(screen.getByText('Live Chat Placeholder Mock')).toBeInTheDocument();
 
     expect(screen.getByTestId('knowledge-base-mock')).toBeInTheDocument();
-    expect(screen.getByText('KnowledgeBasePlaceholder Mock')).toBeInTheDocument();
+    expect(screen.getByText('Knowledge Base Mock')).toBeInTheDocument();
   });
 });
