@@ -9,6 +9,7 @@ import InvestmentsPage from './pages/InvestmentsPage'; // Import the new Investm
 import WalletPage from './pages/WalletPage'; // Import the WalletPage component
 import DailyEngagementPage from './pages/DailyEngagementPage'; // Import the DailyEngagementPage component
 import NotificationsPage from './pages/NotificationsPage'; // Import the NotificationsPage component
+import SupportPage from './pages/SupportPage'; // Import the SupportPage component
 
 // Placeholder for other pages
 const PlaceholderPage = ({ title }) => <div className="p-4"><h2 className="text-2xl">{title}</h2><p>Content will be here.</p></div>;
@@ -31,7 +32,7 @@ function App() {
             <Route path="/wallet" element={<WalletPage />} /> {/* Use the WalletPage component */}
             <Route path="/daily-engagement" element={<DailyEngagementPage />} /> {/* Use the DailyEngagementPage component */}
             <Route path="/notifications" element={<NotificationsPage />} /> {/* Use the NotificationsPage component */}
-            <Route path="/support" element={<PlaceholderPage title="Support" />} />
+            <Route path="/support" element={<SupportPage />} /> {/* Use the SupportPage component */}
           </Routes>
         </main>
         <Footer />
