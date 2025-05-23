@@ -28,10 +28,10 @@ const AdminLayout = () => {
             </li>
             <li>
               <Link 
-                to="/admin/users" 
+                to="/admin/roles"  // Updated path
                 className="block py-2 px-4 rounded hover:bg-gray-700 transition duration-150"
               >
-                User Management
+                Role Management   // Updated text
               </Link>
             </li>
             <li>
