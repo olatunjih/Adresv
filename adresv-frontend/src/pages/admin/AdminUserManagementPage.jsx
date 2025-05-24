@@ -1,14 +1,18 @@
 import React from 'react';
+import UserDirectoryTable from '../../components/admin/usermanagement/UserDirectoryTable'; // Import the component
 
 const AdminUserManagementPage = () => {
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">
-        Admin User Management
+    // The AdminLayout provides the overall page structure.
+    // This component renders its specific content within that layout.
+    <div className="p-6 space-y-6"> {/* Standard padding, added space-y for spacing if needed */}
+      <h1 className="text-2xl font-bold text-gray-800"> {/* Removed mb-6 as space-y will handle it */}
+        User Management
       </h1>
-      <p className="text-gray-600">
-        Manage user accounts, roles, and permissions here.
-      </p>
+      
+      {/* UserDirectoryTable already has its own card-like styling (bg-white, p-6, shadow) */}
+      <UserDirectoryTable />
+      
     </div>
   );
 };
