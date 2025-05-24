@@ -1,16 +1,16 @@
 import React from 'react';
 
-const AdminUserManagementPage = () => {
+const AdminWalletTransactionsPage = () => {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold text-gray-800 mb-4">
-        Admin User Management
+        Admin Wallet & Transactions
       </h1>
       <p className="text-gray-600">
-        Manage user accounts, roles, and permissions here.
+        Monitor and manage user wallets and platform transactions here.
       </p>
     </div>
   );
 };
 
-export default AdminUserManagementPage;
+export default AdminWalletTransactionsPage;

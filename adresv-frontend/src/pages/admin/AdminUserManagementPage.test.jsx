@@ -1,10 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom'; // Good practice for page components
 import AdminUserManagementPage from './AdminUserManagementPage';
-
-// Mock the UserDirectoryTable child component
-jest.mock('../../components/admin/usermanagement/UserDirectoryTable', () => () => <div data-testid="user-directory-table-mock">UserDirectoryTable Mock</div>);
 
 describe('AdminUserManagementPage', () => {
   beforeEach(() => {
@@ -15,12 +12,16 @@ describe('AdminUserManagementPage', () => {
     );
   });
 
-  test('renders the main title "User Management"', () => {
-    expect(screen.getByRole('heading', { name: /User Management/i, level: 1 })).toBeInTheDocument();
+  test('renders the main heading "Admin User Management"', () => {
+    const heading = screen.getByRole('heading', { 
+      name: /Admin User Management/i,
+      level: 1 // Assuming h1 for the main page title
+    });
+    expect(heading).toBeInTheDocument();
   });
 
-  test('renders the placeholder for the mocked UserDirectoryTable component', () => {
-    expect(screen.getByTestId('user-directory-table-mock')).toBeInTheDocument();
-    expect(screen.getByText('UserDirectoryTable Mock')).toBeInTheDocument();
+  test('renders the placeholder paragraph', () => {
+    const paragraph = screen.getByText(/Manage user accounts, roles, and permissions here./i);
+    expect(paragraph).toBeInTheDocument();
   });
 });
