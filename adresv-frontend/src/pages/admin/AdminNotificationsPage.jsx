@@ -1,6 +1,6 @@
 import React from 'react';
 import ComposeNotificationForm from '../../components/admin/notifications/ComposeNotificationForm';
-// import NotificationHistoryTable from '../../components/admin/notifications/NotificationHistoryTable'; // Placeholder will replace this
+import NotificationHistoryTable from '../../components/admin/notifications/NotificationHistoryTable'; // Import the component
 
 const AdminNotificationsPage = () => {
   // Mock drafts logic removed as per task to implement a simple placeholder
@@ -30,12 +30,10 @@ const AdminNotificationsPage = () => {
       {/* This component is assumed to have its own card-like styling (bg-white, p-6, shadow-md) */}
       <ComposeNotificationForm />
 
-      {/* Notification History Placeholder Section */}
+      {/* Notification History Section - now rendering the table */}
       <section className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold text-gray-700 mb-3">Notification History</h2>
-        <p className="text-gray-600">
-          A table of sent notifications will be displayed here.
-        </p>
+        {/* The h2 heading and p placeholder are removed as per instructions */}
+        <NotificationHistoryTable />
       </section>
       
       {/* Saved Drafts Placeholder Section */}

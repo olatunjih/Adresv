@@ -28,8 +28,72 @@ const NotificationHistoryTable = () => {
     <section className="bg-white p-6 rounded-lg shadow-md mt-8 w-full max-w-4xl mx-auto">
       <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center">Notification History</h2>
       
-      <div className="mb-4 p-3 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-600">
-        <p>Filters for target audience, status, and delivery date range will be implemented here.</p>
+      {/* Filter Section Container */}
+      <div className="mb-4 p-3 bg-gray-50 border border-gray-200 rounded-md">
+        <div className="flex flex-wrap gap-4 items-end">
+          {/* Target Audience Filter */}
+          <div className="flex-1 min-w-[150px]">
+            <label htmlFor="filter-target-audience" className="block text-sm font-medium text-gray-700">Target Audience</label>
+            <select
+              id="filter-target-audience"
+              name="targetAudience"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            >
+              <option>All</option>
+              <option>All Users</option>
+              <option>Specific Roles</option>
+              <option>Individual User</option>
+            </select>
+          </div>
+
+          {/* Status Filter */}
+          <div className="flex-1 min-w-[150px]">
+            <label htmlFor="filter-status" className="block text-sm font-medium text-gray-700">Status</label>
+            <select
+              id="filter-status"
+              name="status"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            >
+              <option>All</option>
+              <option>Sent</option>
+              <option>Scheduled</option>
+              <option>Failed</option>
+              <option>Draft</option>
+            </select>
+          </div>
+
+          {/* Start Date Filter */}
+          <div className="flex-1 min-w-[150px]">
+            <label htmlFor="filter-start-date" className="block text-sm font-medium text-gray-700">Start Date</label>
+            <input
+              type="date"
+              id="filter-start-date"
+              name="startDate"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            />
+          </div>
+
+          {/* End Date Filter */}
+          <div className="flex-1 min-w-[150px]">
+            <label htmlFor="filter-end-date" className="block text-sm font-medium text-gray-700">End Date</label>
+            <input
+              type="date"
+              id="filter-end-date"
+              name="endDate"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            />
+          </div>
+
+          {/* Apply Filters Button */}
+          <div>
+            <button
+              type="button"
+              className="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Apply Filters
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className="overflow-x-auto">
