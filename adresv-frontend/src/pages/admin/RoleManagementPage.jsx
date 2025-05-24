@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './RoleManagementPage.css'; // Import the CSS file
 
 const mockAdmins = [
   { id: 1, name: 'Alice Wonderland', role: 'Super Admin', createdDate: '2023-01-15', lastLogin: '2024-07-20 10:00 AM' },
@@ -21,13 +22,11 @@ const RoleManagementPage = () => {
   };
 
   const confirmRoleChange = () => {
-    // Update admin role
     setAdmins(prevAdmins =>
       prevAdmins.map(admin =>
         admin.id === selectedAdmin.id ? { ...admin, role: selectedRole } : admin
       )
     );
-    // Log activity
     console.log(`Role changed for user ${selectedAdmin.name} to ${selectedRole}. This action should be logged to the backend.`);
     setShowModal(false);
   };
@@ -37,9 +36,9 @@ const RoleManagementPage = () => {
   };
 
   return (
-    <div>
-      <h1>Admin Role Management</h1>
-      <table>
+    <div className="role-management-page">
+      <h1 className="page-title">Admin Role Management</h1>
+      <table className="admin-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -58,6 +57,7 @@ const RoleManagementPage = () => {
               <td>{admin.lastLogin}</td>
               <td>
                 <select
+                  data-testid={`role-select-${admin.id}`}
                   value={admin.role}
                   onChange={e => handleRoleChange(admin.id, e.target.value)}
                 >
@@ -74,42 +74,17 @@ const RoleManagementPage = () => {
       </table>
 
       {showModal && (
-        <div className="modal">
-          <h2>Confirm Role Change</h2>
-          <p>
+        <div className="confirmation-modal" data-testid="confirmation-modal">
+          <h2 className="modal-title">Confirm Role Change</h2>
+          <p className="modal-message">
             Are you sure you want to assign '{selectedRole}' to {selectedAdmin?.name}?
           </p>
-          <button onClick={confirmRoleChange}>Confirm</button>
-          <button onClick={cancelRoleChange}>Cancel</button>
+          <button onClick={confirmRoleChange} className="modal-button modal-button-confirm">Confirm</button>
+          <button onClick={cancelRoleChange} className="modal-button modal-button-cancel">Cancel</button>
         </div>
       )}
 
-      {/* Basic styling for the modal for visibility */}
-      <style jsx>{`
-        .modal {
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          background-color: white;
-          padding: 20px;
-          border: 1px solid #ccc;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-          z-index: 1000;
-        }
-        table {
-          width: 100%;
-          border-collapse: collapse;
-        }
-        th, td {
-          border: 1px solid #ddd;
-          padding: 8px;
-          text-align: left;
-        }
-        th {
-          background-color: #f2f2f2;
-        }
-      `}</style>
+      {/* The <style jsx> block has been removed */}
     </div>
   );
 };
