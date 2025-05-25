@@ -5,8 +5,12 @@ import AdminNotificationsPage from './AdminNotificationsPage';
 
 // Mock child components
 jest.mock('../../components/admin/notifications/ComposeNotificationForm', () => () => <div data-testid="compose-form-mock">ComposeNotificationForm Mock</div>);
-// NotificationHistoryTable is no longer directly used by AdminNotificationsPage, it's replaced by a placeholder.
-// jest.mock('../../components/admin/notifications/NotificationHistoryTable', () => () => <div data-testid="history-table-mock">NotificationHistoryTable Mock</div>);
+
+// Unmock NotificationHistoryTable to test its actual rendering including its heading
+jest.unmock('../../components/admin/notifications/NotificationHistoryTable');
+// Ensure any previous mock is cleared if it was set elsewhere, though unmock should handle it.
+// jest.dontMock('../../components/admin/notifications/NotificationHistoryTable');
+
 
 describe('AdminNotificationsPage', () => {
   beforeEach(() => {
@@ -26,16 +30,15 @@ describe('AdminNotificationsPage', () => {
     expect(screen.getByText('ComposeNotificationForm Mock')).toBeInTheDocument();
   });
 
-  describe('Notification History Placeholder Section', () => {
-    test('renders the "Notification History" heading', () => {
+  describe('Notification History Section', () => {
+    test('renders the "Notification History" heading (from NotificationHistoryTable)', () => {
+      // This heading is rendered by the actual NotificationHistoryTable component
       const historyHeading = screen.getByRole('heading', { name: /Notification History/i, level: 2 });
       expect(historyHeading).toBeInTheDocument();
     });
 
-    test('renders the placeholder text for notification history', () => {
-      const historyPlaceholderText = screen.getByText('A table of sent notifications will be displayed here.');
-      expect(historyPlaceholderText).toBeInTheDocument();
-    });
+    // The placeholder text test is removed as the actual table is now rendered.
+    // test('renders the placeholder text for notification history', () => { ... });
   });
 
   describe('Saved Drafts Placeholder Section', () => {

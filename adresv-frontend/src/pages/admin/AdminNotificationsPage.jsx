@@ -1,6 +1,7 @@
 import React from 'react';
 import ComposeNotificationForm from '../../components/admin/notifications/ComposeNotificationForm';
-import NotificationHistoryTable from '../../components/admin/notifications/NotificationHistoryTable'; // Import the component
+import NotificationHistoryTable from '../../components/admin/notifications/NotificationHistoryTable';
+import NotificationDraftsList from '../../components/admin/notifications/NotificationDraftsList'; // Import the new component
 
 const AdminNotificationsPage = () => {
   // Mock drafts logic removed as per task to implement a simple placeholder
@@ -36,12 +37,11 @@ const AdminNotificationsPage = () => {
         <NotificationHistoryTable />
       </section>
       
-      {/* Saved Drafts Placeholder Section */}
+      {/* Saved Drafts Section - now rendering the NotificationDraftsList component */}
       <section className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold text-gray-700 mb-3">Saved Drafts</h2>
-        <p className="text-gray-600">
-          Your saved notification drafts will appear here.
-        </p>
+        {/* The h2 heading and p placeholder are removed as per instructions, 
+            as NotificationDraftsList component includes its own "Saved Drafts" h2 heading. */}
+        <NotificationDraftsList />
       </section>
 
       {/* NotificationHistoryTable component removed as per task to implement a simple placeholder */}

@@ -17,8 +17,31 @@ describe('NotificationHistoryTable Component', () => {
     expect(screen.getByRole('heading', { name: /Notification History/i, level: 2 })).toBeInTheDocument();
   });
 
-  test('renders the placeholder text for filters', () => {
-    expect(screen.getByText(/Filters for target audience, status, and delivery date range will be implemented here./i)).toBeInTheDocument();
+  // Test for the filter UI elements
+  describe('Filter UI Elements', () => {
+    test('renders Target Audience filter', () => {
+      expect(screen.getByLabelText(/Target Audience/i)).toBeInTheDocument();
+      expect(screen.getByRole('combobox', { name: /Target Audience/i })).toBeInTheDocument();
+    });
+
+    test('renders Status filter', () => {
+      expect(screen.getByLabelText(/Status/i)).toBeInTheDocument();
+      expect(screen.getByRole('combobox', { name: /Status/i })).toBeInTheDocument();
+    });
+
+    test('renders Start Date filter', () => {
+      expect(screen.getByLabelText(/Start Date/i)).toBeInTheDocument();
+      // Date inputs don't have a specific role like 'textbox' or 'combobox' that is consistently reliable across browsers/Testing Library versions for getByRole.
+      // Using getByLabelText is sufficient to find the input associated with the label.
+    });
+
+    test('renders End Date filter', () => {
+      expect(screen.getByLabelText(/End Date/i)).toBeInTheDocument();
+    });
+
+    test('renders Apply Filters button', () => {
+      expect(screen.getByRole('button', { name: /Apply Filters/i })).toBeInTheDocument();
+    });
   });
 
   test('renders table headers correctly', () => {
